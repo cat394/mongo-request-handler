@@ -1,5 +1,7 @@
 # MongoDB Data API Request Handler (MRH)
 
+![Kokomi, in school uniform with red twin-tailed hair and red eyes, says, "ORM? ODM? We don't need that!"](https://github.com/cat394/mongo-request-handler/blob/main/images/thumbnail.webp)
+
 ## Features
 
 - **Simple**
