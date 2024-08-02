@@ -60,8 +60,7 @@ export type Query = Record<string, unknown>;
  * This type is a record where each key is a header name and the value is the header value.
  * It allows for the specification of additional headers, such as authentication tokens or custom metadata,
  * to be sent along with the request.
- * 
- */ 
+ */
 export type Headers = Record<string, string>;
 
 /**
