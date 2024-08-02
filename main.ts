@@ -1,6 +1,7 @@
 import type {
   BasicEndpoints,
   DatabaseConfig,
+  Headers,
   Query,
   SendDBRequestFunction,
 } from "./types.ts";
@@ -187,6 +188,33 @@ export class MongoDBRequest<T extends BasicEndpoints = BasicEndpoints> {
    */
   query: Query = {};
 
+   /**
+   * The headers for the MongoDB API request.
+   * 
+   * @example
+   * async function getUserProfile(ctx) {
+   *  // Those function is fake.
+   *  const accessToken = getAccessToken(ctx);
+   *  const userId = getUserId(ctx);
+   * 
+   *  const dbRequest = new MongoDBRequest();
+   * 
+   *  dbRequest.query = {
+   *    collection: 'users',
+   *    filter: { _id: { $oid: userId }}
+   *  };
+   * 
+   *  dbRequest.headers = { Authorization: `Bearer ${accessToken}` };
+   * 
+   *  const result = await sendDBRequest(dbRequest);
+   * 
+   *  const user = result.document;
+   * 
+   *  return user;
+   * }
+   */
+   headers: Headers = {};
+
   /**
    * Sets the base query parameters for the request.
    * These parameters are merged with the current base query.
@@ -333,6 +361,7 @@ export function createSendDBRequestFunction({
       headers: {
         "Content-Type": "application/json",
         "api-key": apiKey,
+        ...request.headers
       },
       body: JSON.stringify(query),
     };
