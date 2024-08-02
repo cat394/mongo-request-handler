@@ -9,6 +9,7 @@ import type {
   DatabaseConfig,
   Document,
   Query,
+  Headers
 } from "./types.ts";
 import type * as RequestResult from "./result-types.ts";
 
@@ -21,5 +22,6 @@ export {
   MRHMissingParameterError,
   MRHRequestError,
   type Query,
+  type Headers,
   type RequestResult,
 };
