@@ -1,7 +1,7 @@
 import { type Stub, stub } from "@std/testing/mock";
 import { firstComment } from "./setting.ts";
 
-export function createFetchStubForBodyCheck(): Stub<
+export function createFetchStubForRequestInitCheck(): Stub<
   typeof globalThis,
   [input: string | URL | Request, init?: RequestInit],
   Promise<Response>
@@ -16,7 +16,7 @@ export function createFetchStubForBodyCheck(): Stub<
       );
     }
     return await Promise.resolve(
-      new Response(JSON.stringify(requestInit.body), { status: 200 }),
+      new Response(JSON.stringify(requestInit), { status: 200 }),
     );
   };
 

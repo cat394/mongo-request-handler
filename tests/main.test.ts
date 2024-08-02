@@ -13,8 +13,8 @@ import {
   type RequestResult,
 } from "../mod.ts";
 import {
-  createFetchStubForBodyCheck,
   createFetchStubForDatabaseOperation,
+  createFetchStubForRequestInitCheck,
 } from "./fetch-stub.ts";
 import {
   APP_ID,
@@ -26,14 +26,14 @@ import {
 const sendDBRequest = createSendDBRequestFunction(databaseConfig);
 
 Deno.test("sendDBRequest function test", async (t) => {
-  const fetchStub = createFetchStubForBodyCheck();
+  const fetchStub = createFetchStubForRequestInitCheck();
   try {
     await t.step("basic request", async () => {
       const dbReqeust = new MongoDBRequest();
       dbReqeust.endpoint = "/find";
       dbReqeust.query = { collection: "books" };
 
-      const requestBody = await sendDBRequest(dbReqeust);
+      const requestInit = (await sendDBRequest(dbReqeust)) as RequestInit;
 
       const expectedRequestBody = {
         dataSource: databaseConfig.dataSource,
@@ -41,7 +41,7 @@ Deno.test("sendDBRequest function test", async (t) => {
         collection: "books",
       };
 
-      assertEquals(requestBody, JSON.stringify(expectedRequestBody));
+      assertEquals(requestInit?.body, JSON.stringify(expectedRequestBody));
     });
 
     await t.step("extends request class request", async () => {
@@ -56,7 +56,9 @@ Deno.test("sendDBRequest function test", async (t) => {
 
       bookCollectionReqeust.endpoint = "/find";
 
-      const requestBody = await sendDBRequest(bookCollectionReqeust);
+      const requestInit = (await sendDBRequest(
+        bookCollectionReqeust,
+      )) as RequestInit;
 
       const expectedRequestBody = {
         dataSource: databaseConfig.dataSource,
@@ -64,7 +66,7 @@ Deno.test("sendDBRequest function test", async (t) => {
         collection: "books",
       };
 
-      assertEquals(requestBody, JSON.stringify(expectedRequestBody));
+      assertEquals(requestInit?.body, JSON.stringify(expectedRequestBody));
     });
   } finally {
     fetchStub.restore();
@@ -72,6 +74,14 @@ Deno.test("sendDBRequest function test", async (t) => {
 });
 
 Deno.test("MongoDBRequest object tests", async (t) => {
+  await t.step("should set and get headers correctly", () => {
+    const dbRequest = new MongoDBRequest();
+
+    dbRequest.headers = { Authorization: "Bearer test-token" };
+
+    assertEquals(dbRequest.headers, { Authorization: "Bearer test-token" });
+  });
+
   await t.step("should set and get fullQuery correctly", () => {
     const dbRequest = new MongoDBRequest();
 
@@ -393,6 +403,32 @@ Deno.test("Request error handling test", async (t) => {
         );
       },
     );
+  } finally {
+    fetchStub.restore();
+  }
+});
+
+Deno.test("sendDBRequest function with headers test", async (t) => {
+  const fetchStub = createFetchStubForRequestInitCheck();
+  try {
+    await t.step("should include custom headers in the request", async () => {
+      const dbRequest = new MongoDBRequest();
+      dbRequest.endpoint = "/find";
+      dbRequest.query = { collection: "books" };
+      dbRequest.headers = { "Custom-Header": "HeaderValue" };
+
+      await sendDBRequest(dbRequest);
+
+      const requestInit = (await sendDBRequest(dbRequest)) as RequestInit;
+
+      const expectedHeaders = {
+        "Content-Type": "application/json",
+        "api-key": databaseConfig.apiKey,
+        "Custom-Header": "HeaderValue",
+      };
+
+      assertEquals(requestInit?.headers, expectedHeaders);
+    });
   } finally {
     fetchStub.restore();
   }

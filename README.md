@@ -119,7 +119,7 @@ bunx jsr add @kokomi/mongo-request-handler
       dbRequest.query = { collection: "books" };
       ```
 
-4. Send request
+4. **Send request**
 
    Once you have filled in the request object with the necessary data, all you
    have to do is send it.
@@ -301,6 +301,35 @@ type CustomEndpoints = BasicEndpoints | "/custom-endpoint";
 const dbRequest = new MongoDBRequest<CustomEndpoints>();
 
 dbRequest.endpoint = "/custom-endpoint"; // Type is safe.
+```
+
+## Custom Headers
+
+As of version 1.1.0, you can set custom headers on the MongoDBRequest object, allowing you to authenticate requests. For more information, see [MongoDB Data API Authentication](https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/).
+
+```ts
+function getUserProfile(ctx) {
+  // Those function is fake.
+  const accessToken = getAccessToken(ctx); 
+  const usreId = getUserId(ctx);
+
+  const dbRequest = new MongoDBRequest();
+
+  dbRequest.endpoint = '/findOne';
+
+  dbRequest.query = {
+    collection: 'users',
+    filter: { _id: { $oid: userId } }
+  }
+
+  dbRequest.headers = { Authorization: `Bearer ${accessToken}` };
+
+  const result = await sendDBRequest(dbRequest);
+
+  const user = result.document;
+
+  return user;
+}
 ```
 
 ## FAQ
