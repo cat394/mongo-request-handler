@@ -66,8 +66,7 @@ bunx jsr add @kokomi/mongo-request-handler
 1. **Define a database configuration object:**
 
    > [!NOTE]
-   > You can easily get this data with MongoDB Compass. For more information, 
-   > please watch the video [Getting Started with Deno & MongoDB](https://www.mongodb.com/developer/languages/javascript/getting-started-deno-mongodb/).
+   > You can easily get this data with MongoDB Compass. For more information, please watch the video [Getting Started with Deno & MongoDB](https://www.mongodb.com/developer/languages/javascript/getting-started-deno-mongodb/).
 
    ```ts
    import {
