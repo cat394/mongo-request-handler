@@ -70,4 +70,4 @@ export type BasicEndpoints =
   | "/deleteOne"
   | "/deleteMany";
 
-export type SendDBRequestFunction = <T>(request: MongoDBRequest) => Promise<T>
+export type SendDBRequestFunction = <T>(request: MongoDBRequest) => Promise<T>;

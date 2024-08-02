@@ -1,4 +1,9 @@
-import type { BasicEndpoints, DatabaseConfig, Query, SendDBRequestFunction } from "./types.ts";
+import type {
+  BasicEndpoints,
+  DatabaseConfig,
+  Query,
+  SendDBRequestFunction,
+} from "./types.ts";
 
 /**
  * Error class representing a failure in the MongoDB request.
