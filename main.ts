@@ -1,4 +1,4 @@
-import type { BasicEndpoints, DatabaseConfig, Query } from "./types.ts";
+import type { BasicEndpoints, DatabaseConfig, Query, SendDBRequestFunction } from "./types.ts";
 
 /**
  * Error class representing a failure in the MongoDB request.
@@ -306,7 +306,7 @@ export function createSendDBRequestFunction({
   dataSource,
   database,
   apiKey,
-}: DatabaseConfig) {
+}: DatabaseConfig): SendDBRequestFunction {
   return async function sendDBRequest<T>(request: MongoDBRequest): Promise<T> {
     if (!request.endpoint) {
       throw new MRHMissingParameterError("Endpoint");

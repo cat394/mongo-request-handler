@@ -1,3 +1,5 @@
+import type { MongoDBRequest } from "./mod.ts";
+
 /**
  * Represents the configuration settings for connecting to a MongoDB database.
  * This configuration includes necessary details such as the base URL, data source,
@@ -67,3 +69,5 @@ export type BasicEndpoints =
   | "/updateMany"
   | "/deleteOne"
   | "/deleteMany";
+
+export type SendDBRequestFunction = <T>(request: MongoDBRequest) => Promise<T>
