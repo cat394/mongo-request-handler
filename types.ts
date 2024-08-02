@@ -56,6 +56,15 @@ export type Document = {
 export type Query = Record<string, unknown>;
 
 /**
+ * Represents a set of HTTP headers used in a MongoDB request.
+ * This type is a record where each key is a header name and the value is the header value.
+ * It allows for the specification of additional headers, such as authentication tokens or custom metadata,
+ * to be sent along with the request.
+ * 
+ */ 
+export type Headers = Record<string, string>;
+
+/**
  * Represents the basic set of endpoint paths available in the MongoDB Data API.
  * These endpoints correspond to common database operations such as finding,
  * inserting, updating, and deleting documents.
