@@ -1,5 +1,8 @@
 # MongoDB Data API Request Handler (MRH)
 
+> ![WARNING]
+> This project will no longer be supported on September 15, 2024 due to developers losing interest in MongoDB.
+
 ![Kokomi, in school uniform with red twin-tailed hair and red eyes, says, "ORM? ODM? We don't need that!"](https://github.com/cat394/mongo-request-handler/blob/main/images/thumbnail.webp)
 
 ## Features
