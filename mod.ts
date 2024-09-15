@@ -8,6 +8,7 @@ import type {
   BasicEndpoints,
   DatabaseConfig,
   Document,
+  Headers,
   Query,
 } from "./types.ts";
 import type * as RequestResult from "./result-types.ts";
@@ -17,6 +18,7 @@ export {
   createSendDBRequestFunction,
   type DatabaseConfig,
   type Document,
+  type Headers,
   MongoDBRequest,
   MRHMissingParameterError,
   MRHRequestError,
