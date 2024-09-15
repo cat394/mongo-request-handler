@@ -1,6 +1,6 @@
 {
   "name": "@kokomi/mongo-request-handler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tasks": {
     "test": "deno test --allow-read --allow-env"
   },
@@ -10,7 +10,5 @@
     "@std/testing": "jsr:@std/testing@^0.225.3"
   },
   "exports": "./mod.ts",
-  "fmt": {
-    "exclude": ["./README.md"]
-  }
+  "exclude": ["README.md"]
 }

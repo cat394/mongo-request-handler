@@ -72,16 +72,16 @@ bunx jsr add @kokomi/mongo-request-handler
 
    ```ts
    import {
-     createSendDBRequestFunction,
-     type DatabaseConfig,
-     MongoDBRequest,
+   	createSendDBRequestFunction,
+   	type DatabaseConfig,
+   	MongoDBRequest,
    } from "@kokomi/mongo-request-handler";
 
    const config: DatabaseConfig = {
-     baseUrl: "https://data.mongodb-api.com/app/data-<APP_ID>/endpoint/data/v1",
-     dataSource: "Cluster0",
-     database: "myDatabase",
-     apiKey: "your-api-key",
+   	baseUrl: "https://data.mongodb-api.com/app/data-<APP_ID>/endpoint/data/v1",
+   	dataSource: "Cluster0",
+   	database: "myDatabase",
+   	apiKey: "your-api-key",
    };
    ```
 
@@ -200,18 +200,18 @@ There are two types of errors that can occur when executing the
 
      ```ts
      try {
-       const dbRequest = new MongoDBRequest();
+     	const dbRequest = new MongoDBRequest();
 
-       dbRequest.endpoint = "/findOne";
+     	dbRequest.endpoint = "/findOne";
 
-       // dbRequest.query = { collection: 'books', filter: { _id: $oid: '123'} }; The query parameter is not set!
+     	// dbRequest.query = { collection: 'books', filter: { _id: $oid: '123'} }; The query parameter is not set!
 
-       const result = await dbRequest.send();
+     	const result = await dbRequest.send();
      } catch (error) {
-       if (error instanceof MRHMissingParameterError) {
-         console.error(error.name); // Output: MRHMissingParameterError
-         console.error(error.message); // Output: Missing required parameter: Query
-       }
+     	if (error instanceof MRHMissingParameterError) {
+     		console.error(error.name); // Output: MRHMissingParameterError
+     		console.error(error.message); // Output: Missing required parameter: Query
+     	}
      }
      ```
 
@@ -234,9 +234,9 @@ There are two types of errors that can occur when executing the
            console.error(error.name); // Output: MRHRequestError
            console.error(error.message);
            // Output:
-           //	Error: Database request failed <Error message from MongoDB server>
-           //	Endpoint: '/findOne'
-           //	Query: "{ 'collection': 'books' }"
+           // Error: Database request failed <Error message from MongoDB server>
+           // Endpoint: '/findOne'
+           // Query: "{ 'collection': 'books' }"
 
            console.error(error.endpoint); // Output: '/find'
            console.error(error.query); // Output: { collection: "books" }
@@ -251,11 +251,11 @@ Duplicate queries can be handled by extending the MongoDBRequest class.
 
 ```ts
 class BookCollectionRequest extends MongoDBRequest {
-  constructor() {
-    this.baseQuery = {
-      collection: "books",
-    };
-  }
+	constructor() {
+		this.baseQuery = {
+			collection: "books",
+		};
+	}
 }
 
 const bookCollectionRequest = new BookCollectionRequest();
@@ -263,12 +263,12 @@ const bookCollectionRequest = new BookCollectionRequest();
 // Insert document
 bookCollectionRequest.endpoint = "/InsertOne";
 bookCollectionRequest.query = {
-  document: {
-    book_id: "123",
-    name: "Book1",
-    price: 800,
-    publishDate: new Date("2024-08-02"),
-  },
+	document: {
+		book_id: "123",
+		name: "Book1",
+		price: 800,
+		publishDate: new Date("2024-08-02"),
+	},
 };
 
 console.log(bookCollectionRequest.fullQuery);
@@ -285,7 +285,7 @@ await sendDBRequest(bookCollectionRequest);
 bookCollectionRequest.endpoint = "/deleteOne";
 
 bookCollectionRequest.query = {
-  filter: { book_id: "123" },
+	filter: { book_id: "123" },
 };
 ```
 
@@ -312,26 +312,26 @@ As of version 1.1.0, you can set custom headers on the MongoDBRequest object, al
 
 ```ts
 function getUserProfile(ctx) {
-  // Those function is fake.
-  const accessToken = getAccessToken(ctx); 
-  const usreId = getUserId(ctx);
+	// Those function is fake.
+	const accessToken = getAccessToken(ctx);
+	const usreId = getUserId(ctx);
 
-  const dbRequest = new MongoDBRequest();
+	const dbRequest = new MongoDBRequest();
 
-  dbRequest.endpoint = '/findOne';
+	dbRequest.endpoint = "/findOne";
 
-  dbRequest.query = {
-    collection: 'users',
-    filter: { _id: { $oid: userId } }
-  }
+	dbRequest.query = {
+		collection: "users",
+		filter: { _id: { $oid: userId } },
+	};
 
-  dbRequest.headers = { Authorization: `Bearer ${accessToken}` };
+	dbRequest.headers = { Authorization: `Bearer ${accessToken}` };
 
-  const result = await sendDBRequest(dbRequest);
+	const result = await sendDBRequest(dbRequest);
 
-  const user = result.document;
+	const user = result.document;
 
-  return user;
+	return user;
 }
 ```
 
